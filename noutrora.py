@@ -2,7 +2,6 @@ import random
 import time
 from batalhas import encontro_cavernas
 import qgoblin
-import player
 
 # bibliotecas
 
@@ -19,11 +18,12 @@ cenariosmg = {
     9: f"uma ponte quebrada sobre um abismo sem fim onde {goblin} impedem sua passagem",
     10: f"uma sala completamente escura onde apenas os olhos de {goblin} podem ser vistos",
 }
+
 cenarios = random.randint(1, 10)
 # acima o comando de aleatoriedade de cenario
 
 def start_game():
-    while True:
+    while True: 
         skip = input("deseja pular prologo? sim/nao").lower()
         if skip == "nao" or skip == "não":
             print(
@@ -97,3 +97,4 @@ def start_game():
 
 if __name__ == "__main__":
     start_game()
+    

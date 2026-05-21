@@ -35,9 +35,9 @@ def golins_mutantes():
 
 def quantidade_goblins():
     qgoblins = {
-        1: "1 inimigo",
-        2: "2 inimigos",
-        3: "3 inimigos",
+        1: "1 goblin",
+        2: "2 goblins",
+        3: "3 goblins",
         4: "um goblin de armadura",
     }
     valor = random.randint(1, 4)
