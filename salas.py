@@ -182,35 +182,35 @@ class SalaVenda(Sala):
 # ============================================================================
 
 DESCRICOES_COMBATE = [
-    "Um corredor barulhento onde você se depara com inimigos",
-    "Uma sala coberta por corpos antigos onde aparecem criadores",
-    "Um corredor inundado até seus joelhos onde algo observa você",
-    "Uma biblioteca abandonada onde livros se movem sozinhos",
-    "Uma capela destruída iluminada apenas por velas vermelhas",
-    "Um túnel estreito onde sons de correntes ecoam",
-    "Uma sala silenciosa demais onde você encontra inimigos olhando fixamente",
-    "Um corredor cheio de símbolos estranhos onde criaturas aparecem",
-    "Uma ponte quebrada sobre um abismo sem fim",
-    "Uma sala completamente escura onde apenas olhos podem ser vistos",
+    "Um corredor úmido onde a umidade cola na sua pele. O ar está pesado, fétido, carregado de podridão. Seus passos ecoam e então... silêncio absoluto. Você ouve um rosnado baixo, gutural. Uma forma se move nas sombras. Os olhos brilham em vermelho — uma criatura com dentes que são pura inteligência predatória.",
+    "Uma câmara ossária. Crânios e ossos cobrem o chão em camadas compactadas. O cheiro é insuportável — morte antiga fermentando em eternidade. Uma vela fantasmagórica ilumina as paredes, e você vê marcas de garras recentes. Algo respirando pesadamente ecoado pelas órbitas vazias dos crânios ao seu redor.",
+    "Um corredor inundado. Água preta como breu até seus joelhos. Algo toca sua perna — não é óbvio se é alga ou... dedos. A água emite um brilho fosforescente mórbido. Você vê uma silhueta anfíbia emergir, com pele escamosa que não deveria existir, pronta para arrancar sua garganta.",
+    "Uma biblioteca maldita. Livros flutuam lentamente no ar, suas páginas virando sozinhas. A temperatura caiu 20 graus. Você respira vapor. As prateleiras rangem, e entre os corredores de livros, uma criatura grotesca com múltiplos olhos observa você, seu corpo se contorcendo de forma que desafia anatomia.",
+    "Uma capela em ruínas. Velas vermelhas criam sombras dançantes nas paredes. Há um altar com símbolos sangrentos ainda frescos. Uma entidade de proporções humanoides emerge das sombras — seus olhos brilham com malevolência ancestral, e você sente a frieza de um milhão de mortes irradiando de seu corpo.",
+    "Um túnel de correntes. O barulho metálico é ensurdecedor. As correntes seguram coisas — você vê entalhes de garras nas paredes, sangue escuro que não deveria estar tão fresco. A temperatura flutua erraticamente. Uma criatura se move ritmicamente, suas correntes tilintando enquanto se aproxima, seu rosto uma mistura de dor e fúria destrutiva.",
+    "Uma sala de silêncio absoluto. Nem uma mosca. Nem ar. Você quase ouve seu coração explodindo. Então você vê olhos luminosos, dúzias deles, flutuando nas sombras. Um sussurro antigo ecoa diretamente em sua mente. A criatura não faz som quando se move, mas sente sua presença em cada nervo.",
+    "Um corredor de símbolos primitivos. Eles cobrem as paredes em linhas de sangue. Você sente os símbolos pulsarem de forma sinistra. O ar zumbe com uma frequência que dói. Uma coisa com pele que não tem cores naturais emerge, com símbolos brilhando em seu corpo — uma encarnação do ritual antigo.",
+    "Uma ponte quebrada sobre um vazio sem fundo. Você sente a gravidade se comportando estranho aqui. No meio da ponte, uma criatura aguarda — sua forma flutua entre dimensões, seus membros não têm ângulos normais, e sua respiração distorce o espaço ao redor.",
+    "Uma caverna sem luz. Você está literalmente cego. Mas pode ouvir — respiração úmida, movimento lento, o som de algo que não deveria conseguir se locomover daquela forma. Seus olhos gradualmente se ajustam e vê uma silhueta impossível, seus órgãos vibrando com uma frequência que causa nauseia.",
 ]
 
 DESCRICOES_TESOURO = [
-    "Uma câmara dourada com ouro e joias brilhando",
-    "Um cofre antigo repleto de relíquias esquecidas",
-    "Uma caverna cristalina onde itens mágicos pulsam com luz",
-    "Uma câmara subterrânea com a riqueza de um reino",
+    "Uma câmara dourada onde ouro e joias cobrem o chão. Mas há algo errado — o ouro não é quente, é gelado. As joias pulsam com uma luz que não deveria ser natural. Você sente que está sendo observado. Os itens parecem vibrar quando você toca, como se tivessem uma vontade própria. Alguém... algo... perdeu essa riqueza há muito tempo e ainda a guarda.",
+    "Um cofre antigo com relíquias de civilizações esquecidas. Os itens estão dispostos cerimonialmente. Você encontra moedas de metal que não reconhece, artefatos com símbolos que queimam sua mente apenas por olhá-los. Uma neblina pairava sobre o tesouro. Você jura que viu algo se mover entre os objetos.",
+    "Uma caverna cristalina onde itens mágicos pulsam com luz azulada. Os cristais refletem seu rosto em ângulos errados. O ar aqui hum com poder antigo. Os itens parecem estar presos em cristal parcialmente — como se foram preservados de propósito, ou aprisionados. Sua mão treme quando você se aproxima.",
+    "Uma câmara subterrânea com riqueza de um reino perdido. Moedas, joias, armas forjadas de metal impossível. Mas cada item tem marcas de sangue velho. A riqueza está em uma pirâmide, e no topo há um trono vazio. Você sente o peso de milhões de miradas mortas nesta câmara, todas olhando para você, esperando.",
 ]
 
 DESCRICOES_CURA = [
-    "Uma gruta com uma fonte de água cristalina que brilha",
-    "Um santuário antigo com uma aura de poder curativo",
-    "Um oásis mágico que emana paz e cura",
+    "Uma gruta com uma fonte de água cristalina. A água brilha levemente, e a temperatura é perfeita. Mas quando você se aproxima, sente que a água não está vazando — está sendo contida por algo invisível. Você bebe, e por um momento pode sentir as feridas cicatrizarem. Porém, você também sente uma presença na água, como se algo antigo e sábio dormisse em suas profundezas.",
+    "Um santuário antigo com uma aura de poder curativo. Símbolos sagrados cobrem as paredes. Você se sente seguro aqui... mas há um preço. Pela primeira vez desde entrar na masmorra, você sente que está sendo julgado. As lesões curam, mas você jura que pode ouvir sussurros de agradecimento de outras almas curadas neste lugar.",
+    "Um oásis subterrâneo que emana paz. A água é morna e reconfortante. Flores iluminescem suavemente. Mas algo não é natural — as flores crescem em padrões geométricos perfeitos, como se cultivadas com propósito. Você é curado, mas quando você se afasta, vê seu reflexo na água por um instante — e não está sozinho no reflexo.",
 ]
 
 DESCRICOES_VENDA = [
-    "Uma tenda misteriosa aparece do nada com itens raros",
-    "Um viajante misterioso oferece seus melhores itens",
-    "Uma boutique interdimensional cheia de artefatos mágicos",
+    "Uma tenda emerge da neblina — você tem certeza que não estava aqui segundos atrás. Dentro, um vendedor que você não consegue ver muito bem, seu rosto sempre na sombra mesmo com luz ao redor. Seus dedos são longos demais. Ele sorri, revelando dentes que não deveriam caber em uma boca humana. Seus itens emitem um brilho que causa incômodo. Você sente que está fazendo uma negociação com algo que não deveria estar neste reino.",
+    "Um viajante em um beco lateral. Seu capuz oscila, e você não consegue ver seu rosto. Seus itens estão dispostos sobre um tecido negro que parece absorver luz. Quando você toca um item, o vendedor se mexe — rápido demais, sua postura errada. Você jura que ele pisca em três lugares simultâneos. Ele oferece seus melhores itens, mas você sente que o preço pode ser muito mais do que moeda.",
+    "Uma loja impossível em uma parede da masmorra. Como ela está ali? As dimensões não fazem sentido. Dentro, artefatos brilham suspensos no ar. O vendedor é uma figura feita de luz e sombra, seu corpo nunca descansando em uma forma definida. Os itens aqui foram pertencer a pessoas que você jura reconhecer dos livros de história há séculos. Ele oferece preços baixos, mas pergunta questões que revelam seus medos mais profundos.",
 ]
 
 

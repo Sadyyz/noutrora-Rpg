@@ -37,7 +37,7 @@ def determinar_iniciativa(velocidade_player, velocidade_goblin):
 
 
 def exibir_status_combate(player, goblin, numero_turno):
-    """Exibe o status atual do combate."""
+    """Exibe o status atual do combate com descrições imersivas."""
     forca_player = player.obter_forca_total()
     velocidade_player = player.obter_velocidade_total()
     
@@ -49,9 +49,13 @@ def exibir_status_combate(player, goblin, numero_turno):
     print(f"   Força: {forca_player} | Velocidade: {velocidade_player}")
     if player.arma_equipada:
         print(f"   🗡️  Arma: {player.arma_equipada.nome}")
+    
     print(f"\n⚔️  {goblin.obter_status()['tipo']}:")
     print(f"   Vida: {goblin.vida}/{goblin.vida_maxima} HP")
     print(f"   Força: {goblin.forca} | Velocidade: {goblin.velocidade}")
+    print(f"\n🔴 O que você vê:")
+    print(f"   {goblin.descrever_visualmente()}")
+
 
 
 def obter_acao_jogador(player):
@@ -69,6 +73,10 @@ def obter_acao_jogador(player):
         print("SUAS AÇÕES:")
         print(f"{'='*60}")
         print(f"[1] Atacar")
+        if player.nome == "Metamorfo":
+            print("2 - Usar Essência")
+        elif player.nome == "Druida":
+            print("2 - Envenenar")
         print(f"[2] Defender")
         if player.inventario:
             print(f"[3] Usar Item ({len(player.inventario)} itens)")
@@ -104,14 +112,29 @@ def processar_acao_jogador(player, goblin, acao):
         forca_player = player.obter_forca_total()  # COM BÔNUS
         dano = calcular_dano(forca_player)
         goblin.tomar_dano(dano)
-        print(f"\n⚔️  Você atacou com força!")
-        print(f"💥 Causou {dano} de dano ao {goblin.obter_status()['tipo'].lower()}!")
+        
+        # Descrições cinematográficas variadas
+        ataques = [
+            f"⚔️  Você avança com toda sua força! Sua arma corta o ar com um assobio de morte.",
+            f"⚔️  Um grito de batalha sai de seus pulmões enquanto você se lança para o ataque!",
+            f"⚔️  Você vê uma abertura e ataca com tudo que tem!",
+            f"⚔️  Seus músculos ardem enquanto você executa o golpe!",
+        ]
+        print(f"\n{random.choice(ataques)}")
+        print(f"💥 IMPACTO! Você causou {dano} de dano devastador ao {goblin.obter_status()['tipo'].lower()}!")
+        
+        if goblin.vida <= 0:
+            print(f"🩸 A criatura grita de agonia, seu sangue banhando o chão!")
+        else:
+            print(f"🩸 Ferimento aberto! O {goblin.obter_status()['tipo'].lower()} rosna de dor!")
+        
         time.sleep(1)
         return "atacou"
     
     elif acao == "defender":
-        print(f"\n🛡️  Você se posiciona defensivamente!")
-        print(f"A próxima defesa reduzirá o dano...")
+        print(f"\n🛡️  Você se posiciona defensivamente, elevando sua guarda!")
+        print(f"Seu corpo se tensa... você está pronto para qualquer ataque.")
+        print(f"A defesa reduzirá significativamente o dano do próximo golpe!")
         time.sleep(1)
         return "defendeu"
     
@@ -129,12 +152,14 @@ def processar_acao_jogador(player, goblin, acao):
     elif acao == "fugir":
         chance_fuga = random.randint(1, 100)
         if chance_fuga > 50:
-            print(f"\n🏃 Você correu para fora da batalha!")
+            print(f"\n🏃 Seus instintos de sobrevivência explodem! Você se vira e CORRE!")
+            print(f"Você consegue abrir espaço e desaparece pela escuridão da masmorra!")
             time.sleep(1)
             return "fugiu"
         else:
-            print(f"\n❌ Você não conseguiu fugir!")
-            print(f"O inimigo bloqueia o caminho!")
+            print(f"\n❌ Você tenta fugir desesperadamente!")
+            print(f"😈 Mas a criatura é mais rápida! Ela bloqueia seu caminho com um rosnado aterrorizante!")
+            print(f"Você está preso aqui. Não há escapatória.")
             time.sleep(1)
             return "falhou_fuga"
 
@@ -187,14 +212,25 @@ def executar_turno_interativo(player, goblin, numero_turno):
         # Se player defendeu, reduz dano
         if resultado_acao == "defendeu":
             dano = int(dano * 0.5)
-            print(f"\n🛡️  Sua defesa foi eficaz!")
+            print(f"\n🛡️  Sua defesa foi eficaz! Você bloqueia o golpe, reduzindo o impacto!")
         
         player.tomar_dano(dano)
-        print(f"\n💥 O {goblin.obter_status()['tipo'].lower()} te atacou!")
-        print(f"🤕 Você recebeu {dano} de dano!")
+        
+        # Descrições variadas do ataque do goblin
+        ataques_goblin = [
+            f"O {goblin.obter_status()['tipo'].lower()} solta um grito ensurdecedor e avança como uma besta acuada!",
+            f"A criatura se move com velocidade aterradora, seus olhos brilhando de pura malevolência!",
+            f"O {goblin.obter_status()['tipo'].lower()} salta para o ataque com garras estendidas!",
+            f"Um rosnado primitivo ecoa enquanto o inimigo executa seu contra-ataque!",
+        ]
+        print(f"\n😈 {random.choice(ataques_goblin)}")
+        print(f"💥 BAQUE! Você sente o impacto devastador!")
+        print(f"🤕 Você recebeu {dano} de dano! Sangue quente escorre pelo seu corpo...")
     else:
-        print(f"\n😈 O {goblin.obter_status()['tipo'].lower()} estranha em sua posição de combate...")
-        print(f"Ambos se observam cautelosamente...")
+        print(f"\n😈 O {goblin.obter_status()['tipo'].lower()} parece ponderar seu próximo movimento...")
+        print(f"A criatura rosna baixo, avaliando suas opções. Ambos respiram pesadamente.")
+        print(f"O silêncio é absoluto, exceto pelo seu coração acelerado.")
+
     
     time.sleep(1)
     
@@ -223,22 +259,24 @@ def encontro_combate(nome, player, goblin, cenario_text):
     """
     print(f"\n{cenario_text}")
     time.sleep(2)
-    print(f"\n⚠️  {goblin.obter_status()['tipo']} aparece das sombras!")
+    print(f"\n⚠️  ENCONTRO! {goblin.obter_status()['tipo']} aparece das sombras!")
+    print(f"\n{goblin.descrever_visualmente()}")
     time.sleep(2)
     
     # Menu pré-combate
     while True:
-        print("\n" + "=" * 50)
-        print("[1] Entrar em Combate")
-        print("[2] Tentar Fugir")
-        print("=" * 50)
+        print("\n" + "=" * 60)
+        print("[1] ⚔️  Entrar em Combate")
+        print("[2] 🏃 Tentar Fugir Agora")
+        print("=" * 60)
         
         opcao = input(f"\n{nome}, qual será sua decisão? ").strip()
         
         if opcao == "1":
             # Iniciar combate
             print("\n" + "=" * 60)
-            print("⚔️  UM DUELO SE APROXIMA!")
+            print("⚔️  UM DUELO À MORTE COMEÇA!")
+            print("As garras se esticam. Os olhos brilham. Não há volta agora.")
             print("=" * 60)
             time.sleep(2)
             

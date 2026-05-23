@@ -5,7 +5,54 @@ from player import Player
 from goblin import criar_goblin_aleatorio
 from salas import gerar_sala_aleatoria, SalaCombate, SalaTesourou, SalaCura, SalaVenda
 from config import NOME_MINIMO
+from assets.classes.metamorfo import Metamorfo
+from assets.classes.druida import Druida
+import colorama
+from colorama import Fore, Style, init
 
+init(autoreset=True)
+print(Fore.LIGHTGREEN_EX + r"""
+
+███╗   ██╗ ██████╗ ██╗   ██╗████████╗██████╗  ██████╗ ██████╗  █████╗ 
+████╗  ██║██╔═══██╗██║   ██║╚══██╔══╝██╔══██╗██╔═══██╗██╔══██╗██╔══██╗
+██╔██╗ ██║██║   ██║██║   ██║   ██║   ██████╔╝██║   ██║██████╔╝███████║
+██║╚██╗██║██║   ██║██║   ██║   ██║   ██╔══██╗██║   ██║██╔══██╗██╔══██║
+██║ ╚████║╚██████╔╝╚██████╔╝   ██║   ██║  ██║╚██████╔╝██║  ██║██║  ██║
+╚═╝  ╚═══╝ ╚═════╝  ╚═════╝    ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+         Onde almas esquecidas vagam pela escuridão..."
+""")
+
+
+def escolher_classe():
+
+    print("Escolha sua classe:")
+    print("1 - Metamorfo")
+    print("2 - Druida")
+
+    opcao = input(">> ")
+
+    if opcao == "1":
+        jogador = Metamorfo()
+        print("Metamorfo...")
+        print("Criaturas que abandonaram a própria humanidade em busca de poder.")
+        print("Metamorfos absorvem a essência de monstros derrotados,")
+        print("transformando almas inimigas em armas devastadoras.")
+    
+
+    elif opcao == "2":
+        jogador = Druida()
+        print("Druida...")
+        print("Guardiões do equilíbrio natural.")
+        print("Druidas manipulam toxinas e energias da floresta,")
+        print("enfraquecendo lentamente qualquer inimigo que cruze seu caminho.")
+
+    else:
+        print("Classe inválida.")
+        return None
+
+    print(f"Classe escolhida: {jogador.nome}")
+
+    return jogador
 
 def start_game():
     """Controlador principal do jogo. Gerencia o fluxo narrativo e exploração."""
@@ -15,8 +62,9 @@ def start_game():
 
     # ========== FASE 2: CRIAR JOGADOR ==========
     nome = _obter_nome_jogador()
+    classep = escolher_classe()
     player = Player(nome)
-
+    
     print(f"\n✨ Bem-vindo, {player.nome}!")
     print(f"Seus atributos iniciais:")
     print(f"  • Vida: {player.vida}")
@@ -36,65 +84,97 @@ def _exibir_prologo():
         if skip in ["nao", "não"]:
             print(
                 "\n" + "=" * 60
-                + "\n\nA chuva caía violentamente sobre os telhados de Stormcloak naquela noite."
+                + "\n\n⛈️  A chuva caía como punhos de um colosso invisível sobre os telhados de Stormcloak."
             )
             time.sleep(3)
             print(
-                "O pequeno vilarejo, conhecido por seus ferreiros e comerciantes de armas, "
-                "parecia mais silencioso do que o normal. As poucas pessoas que ainda caminhavam "
-                "pelas ruas evitavam olhar umas para as outras, como se algo ruim estivesse prestes "
-                "a acontecer."
+                "Os brilhos dos raios iluminavam a cidade de forma fosca e antinatural. O pequeno vilarejo, "
+                "conhecido por seus ferreiros e comerciantes de armas, parecia ter sido abandonado há séculos. "
+                "As poucas pessoas que ainda caminhavam pelas ruas de paralelepípedo molhado evitavam não apenas "
+                "olhar umas para as outras, mas evitavam olhar para cima. Era como se algo pairasse sobre a cidade "
+                "— uma presença invisível que sugava toda esperança."
             )
             time.sleep(8)
-            print("Você cresceu naquele lugar...")
+            print("\n🌙 Você cresceu naquele lugar de desesperança...")
             time.sleep(2)
             print(
-                "Filho de uma família de artesãos, passou a maior parte da vida ajudando na forja "
-                "e ouvindo histórias sobre aventureiros, monstros e ruínas esquecidas pelo reino. "
-                "Histórias que pareciam absurdas… até agora."
+                "Filho de uma família de artesãos, passou a maior parte de sua vida mergulhado em fuligem e calor, "
+                "ajudando seu pai a forjar espadas que ninguém mais encomendava. Noites inteiras ouvindo histórias "
+                "sobre aventureiros lendários, monstros que desafiavam a compreensão humana, e ruínas de civilizações "
+                "que o próprio tempo parecia querer esquecer. Histórias que pareciam absurdas... até que começaram a "
+                "fazer sentido. Até que começou a acreditar que talvez fossem verdadeiras."
             )
             time.sleep(8)
             print(
-                "Enquanto organizava algumas mercadorias antigas da oficina, seus olhos encontraram "
-                "um jornal amassado da Guilda dos Aventureiros."
+                "\n📰 Enquanto organizava mercadorias antigas na oficina — coisas que pertenciam ao seu avô, talvez até "
+                "ao avô do seu avó — seus dedos encontraram um jornal amassado, metade comido por traças, da Guilda "
+                "dos Aventureiros. A data era de três meses atrás."
             )
             time.sleep(6)
-            print("\nEm destaque, uma manchete chamava atenção:")
-            print(">>> A Masmorra de Noutrora volta a emitir sinais de atividade após décadas <<<")
+            print("\n✍️  Em destaque, uma manchete que seu coração não conseguiu ignorar:")
+            print("\n>>> ⚠️  A MASMORRA DE NOUTRORA VOLTA A EMITIR SINAIS DE ATIVIDADE APÓS 200 ANOS <<<\n")
             time.sleep(7)
             print(
-                "Diziam que Noutrora era uma masmorra amaldiçoada localizada nas profundezas das "
-                "montanhas ao norte. Muitos aventureiros entraram naquele lugar em busca de riqueza, "
-                "fama ou respostas… mas poucos retornaram."
+                "Noutrora. O nome sozinho era suficiente para fazer o sangue esfriar. Uma masmorra amaldiçoada "
+                "localizada nas profundezas das montanhas ao norte, além da Floresta Negra, em um lugar que os mapas "
+                "oficiais deixavam em branco. Histórias contadas em sussurros falam de uma estrutura que não deveria "
+                "existir, construída por uma civilização que foi apagada da história. Muitos aventureiros — os melhores, "
+                "os mais destemidos — entraram naquele abismo em busca de riqueza imensurável, fama eterna, ou respostas "
+                "para perguntas que nem sabiam que tinham. Mas poucos retornaram. Muito poucos."
             )
             time.sleep(5)
-            print("\nE os que voltaram jamais foram os mesmos.")
+            print("\n💀 E os que voltaram... não eram mais as mesmas pessoas.")
             time.sleep(2)
             print(
-                "Naquela mesma noite, tomado pela curiosidade — ou talvez por algo pior — você "
-                "decide preparar seu equipamento e partir em direção às montanhas."
+                "Um deles foi encontrado três dias depois de sua saída, envelhecido 20 anos em uma semana. Outro perdeu "
+                "a visão, mas insistia que ainda via coisas que os olhos não deveriam ver. Uma mulher voltou falando em "
+                "linguagens que ninguém conseguia identificar, escrevendo símbolos que queimavam a vista quando alguém "
+                "tentava olhar."
             )
             time.sleep(5)
             print(
-                "O vento gelado sopra contra seu rosto enquanto a enorme entrada da masmorra "
-                "surge diante de você."
+                "\n🔥 Naquela mesma noite, algo mudou em você. Talvez fosse curiosidade. Talvez fosse ganância. Ou talvez "
+                "fosse algo mais antigo — uma chamada que você não conseguia explicar, como se Noutrora estivesse te sussurrando "
+                "através do tempo e da distância, dizendo que você era o que faltava. O que tinha sido prometido."
             )
             time.sleep(5)
-            print("\nSua jornada começa agora.")
+            print(
+                "Você retirou uma velha mochila de debaixo do seu colchão, preparou seu melhor equipamento com as mãos tremendo, "
+                "e naquela madrugada — sem avisar ninguém, como se soubesse que ninguém poderia conter você — você partiu em direção "
+                "às montanhas. A chuva no seu rosto não era mais chuva. Era advertência."
+            )
+            time.sleep(5)
+            print(
+                "\n🌑 Depois de semanas de jornada através de florestas que pareciam estar vivas e respirando, você chegou. "
+                "A entrada de Noutrora não é grande ou impressionante — é muito pior. É exatamente do tamanho certo para parecer "
+                "que foi feita especificamente para você. O ar que sai do interior é quente e carregado de um cheiro que seus instintos "
+                "primitivos identificam imediatamente como morte. O vento que passa pela entrada parece sussurrar palavras que você "
+                "quase consegue entender.\n"
+            )
+            time.sleep(5)
+            print("Este é o limiar.")
             time.sleep(2)
-            print("Mas... não existe herói sem nome...")
+            print("Este é o ponto de não-retorno.")
             time.sleep(2)
-            print("Não é mesmo?")
+            print("Você sente o peso de toda a história respirando nas sombras da masmorra.")
+            time.sleep(2)
+            print("\n🎭 Mas a verdade é simples...")
+            time.sleep(2)
+            print("Herói ou condenado.")
+            time.sleep(1)
+            print("Lendário ou esquecido.")
+            time.sleep(1)
+            print("Você precisa de um nome.")
             time.sleep(4)
-            print("\nMe diga...")
+            print("\n⚔️  Diga-me...")
             time.sleep(1)
             print("\nQual")
             time.sleep(1)
             print("é")
             time.sleep(1)
-            print("o")
-            time.sleep(1)
             print("seu")
+            time.sleep(1)
+            print("verdadeiro")
             time.sleep(1)
             print("nome?")
             time.sleep(2)
