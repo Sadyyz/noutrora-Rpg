@@ -1,3 +1,8 @@
+# ============================================================================
+# NOUTRORA RPG — ARQUIVO PRINCIPAL
+# ============================================================================
+# Execute: python noutrora.py
+# ============================================================================
 
 import random
 import sys
@@ -15,13 +20,21 @@ try:
 except ImportError:
     _COR_TITULO = _COR_RESET = _COR_AVISO = _COR_PERIGO = ""
 
+try:
+    from systems.audio import audio_manager
+except ImportError:
+    audio_manager = None
+
 from config import NOME_MINIMO, XP_POR_SALA_EXPLORADA
 from player import Player
 from batalhas import encontro_combate
 from salas import gerar_sala_aleatoria, SalaCombate, SalaTesourou, SalaCura, SalaVenda
 from assets.classes.metamorfo import Metamorfo
 from assets.classes.druida import Druida
-from assets.save.save_config import salvar_jogo, carregar_jogo, save_existe, deletar_save
+from assets.classes.espectro import Espectro
+from assets.classes.arcanista import Arcanista
+from assets.classes.portador import Portador
+from systems.save import salvar_jogo, carregar_jogo, save_existe, deletar_save
 from systems.memoria import memoria
 from systems.run_procedural import GeraRun, processar_evento
 
@@ -66,11 +79,10 @@ def _linha():
 # ============================================================================
 
 def menu():
+    print(_COR_TITULO + BANNER + _COR_RESET)
     pygame.mixer.init()
     pygame.mixer.music.load("musicas/soundtracks/MAIN.wav")
-    pygame.mixer.music.play()
-
-    print(_COR_TITULO + BANNER + _COR_RESET)
+    pygame.mixer.music.play(-1) 
 
     # Exibe resumo do histórico se há memória acumulada
     if not memoria.primeira_vez():
@@ -164,13 +176,17 @@ def _iniciar_nova_run():
         mortes = memoria.obter("mortes_totais", 0)
         print(f"\n  Você voltou, {jogador.nome}.")
         _pausa(0.8)
-        print(f"  {mortes} mortes registradas.")
+        print(f"  {mortes} mortes. {mortes} resurreições inexplicáveis.")
         _pausa(0.8)
-        print("  A masmorra lembra de você.")
+        print("  A masmorra não apenas lembra de você. Ela o espera.")
+        _pausa(0.5)
+        print("  E agora, você retorna ao seu lugar de descanso...")
     else:
         print(f"\n  Bem-vindo, {jogador.nome}.")
         _pausa(0.8)
-        print("  Sua aventura começa agora.")
+        print("  Você respira fundo. Isto não é mais uma fantasia.")
+        _pausa(0.8)
+        print("  A aventura não 'começa'. Ela sempre existiu. Você simplesmente entrou.")
 
     print(f"\n  Vida: {jogador.vida}  |  Força: {jogador.forca}  |  Velocidade: {jogador.velocidade}")
     _pausa(2)
@@ -199,41 +215,46 @@ def _exibir_prologo():
 
 def _narrar_prologo():
     print("\n" + "=" * 60)
-    _digitar("\nA chuva caía como punhos sobre os telhados de Stormcloak.")
+    _digitar("\nA chuva caía como punhos sobre os telhados de Stormcloak, furando goteiras, alagando ruas.")
     _pausa(2)
     _digitar(
-        "O pequeno vilarejo parecia ter sido abandonado há séculos. "
-        "As poucas pessoas nas ruas evitavam olhar umas para as outras — "
-        "e evitavam olhar para cima."
+        "O pequeno vilarejo parecia ter sido abandonado há séculos — casarões desabando, "
+        "campos murchos, um silêncio que pesava como lápide. As poucas pessoas nas ruas "
+        "evitavam olhar umas para as outras. E nunca olhavam para cima."
     )
     _pausa(4)
     _digitar(
-        "\nVocê cresceu naquele lugar de desesperança. "
-        "Filho de artesãos, passou a vida ouvindo histórias sobre Noutrora — "
+        "\nVocê cresceu naquele lugar de desesperança e pó. "
+        "Filho de artesãos humildes, passou a vida trabalhando com as mãos, "
+        "ouvindo histórias sussurradas sobre Noutrora — "
         "uma masmorra que não deveria existir, construída por uma civilização "
-        "apagada da história."
+        "apagada não apenas da história, mas da própria memória do mundo."
     )
     _pausa(4)
 
     # GDD: Se é veterano, prólogo muda
     if memoria.e_veterano():
         mortes = memoria.obter("mortes_totais", 0)
-        _digitar(f"\nVocê já esteve aqui antes. {mortes} vezes.")
+        runs_escapadas = memoria.obter("runs_inicadas", 0)
+        _digitar(f"\nVocê já esteve aqui antes. {mortes} vezes você morreu. {runs_escapadas} vezes você entrou.")
         _pausa(1)
-        _digitar("E voltou todas elas.")
+        _digitar("E sempre voltou.")
         _pausa(1)
-        _digitar("Por quê? Você mesmo não sabe responder.")
+        _digitar("Talvez seja vício. Talvez seja compulsão. Talvez Noutrora simplesmente não termine enquanto estiver vivo.")
         _pausa(2)
     else:
         _digitar(
-            "\nUma manchete em um jornal amassado:\n"
-            "\n  >>> A MASMORRA DE NOUTRORA VOLTA A EMITIR SINAIS APÓS 200 ANOS <<<\n"
+            "\nUma manchete em um jornal amassado, encontrado na rua:\n"
+            "\n  ⚠️ ALERTA: A MASMORRA DE NOUTRORA VOLTA A EMITIR SINAIS ⚠️"
+            "\n     Primeiro registro em 200 ANOS. Origem desconhecida. Causa do silêncio anterior: mistério."
+            "\n"
         )
         _pausa(3)
         _digitar(
-            "Naquela noite, algo mudou em você. "
-            "Talvez curiosidade. Talvez ganância. "
-            "Ou talvez algo mais antigo — uma chamada que não conseguia explicar."
+            "Naquela noite, quando a notícia se espalhou, algo dentro de você acordou. "
+            "Talvez curiosidade. Talvez um desespero por escapar daquele vilarejo cinzento. "
+            "Ou talvez algo muito mais antigo — uma voz que chamava de dentro das pedras, "
+            "uma compulsão que não conseguia explicar, nem em sonhos."
         )
         _pausa(3)
 
@@ -245,12 +266,7 @@ def _narrar_prologo():
     _pausa(3)
     _digitar("\nEste é o limiar.")
     _pausa(1)
-    _digitar("Diga-me...")
-    _digitar("qual")
-    _digitar("é")
-    _digitar("o") 
-    _digitar("seu")
-    _digitar("nome?")
+    _digitar("Diga-me seu nome.")
     _pausa(2)
 
 
@@ -272,35 +288,33 @@ def _obter_nome_jogador():
 # ============================================================================
 
 def _escolher_classe(nome):
+    _CLASSES = {
+        "1": (Metamorfo,  "Metamorfo"),
+        "2": (Druida,     "Druida"),
+        "3": (Espectro,   "Espectro"),
+        "4": (Arcanista,  "Arcanista"),
+        "5": (Portador,   "Portador da Masmorra"),
+    }
+
     while True:
         _linha()
         print("  ESCOLHA SUA CLASSE")
         _linha()
-        print("  [1] Metamorfo")
-        print("      Absorve essência de inimigos derrotados.")
-        print("      +3 força  |  -1 velocidade")
-        print()
-        print("  [2] Druida")
-        print("      Manipula toxinas e venenos da floresta.")
-        print("      +2 velocidade  |  -2 força  |  3 cargas de veneno")
-        _linha()
 
+        for key, (cls, _) in _CLASSES.items():
+            print(f"  [{key}] {cls.__name__}")
+            print(f"      {cls.DESCRICAO}")
+            print()
+
+        _linha()
         op = input("\n  >> ").strip()
 
-        if op == "1":
-            jogador = Metamorfo(nome)
-            print("\n  Metamorfo.")
-            print("  Criaturas que abandonaram a própria humanidade em busca de poder.")
+        if op in _CLASSES:
+            cls, nome_cls = _CLASSES[op]
+            jogador = cls(nome)
+            print(f"\n  {nome_cls}.")
             _pausa(2)
             return jogador
-
-        elif op == "2":
-            jogador = Druida(nome)
-            print("\n  Druida.")
-            print("  Guardiões do equilíbrio. Enfraquecendo tudo que cruza seu caminho.")
-            _pausa(2)
-            return jogador
-
         else:
             print("  Opção inválida.")
 
@@ -316,6 +330,10 @@ def _explorar_masmorra(nome, jogador):
     """
     salas_exploradas = 0
     gera_run         = GeraRun()   # GDD: procedural — embaralha eventos
+    
+    # Inicia música principal
+    if audio_manager:
+        audio_manager.tocar_musica_principal()
 
     while jogador.esta_vivo():
         salas_exploradas   += 1
@@ -347,16 +365,16 @@ def _explorar_masmorra(nome, jogador):
         # -------------------------------------------------------
         # Sala normal (combate / tesouro / cura / venda)
         # -------------------------------------------------------
-        sala = gerar_sala_aleatoria()
+        sala = gerar_sala_aleatoria(profundidade=salas_exploradas)
 
         if isinstance(sala, SalaCombate):
-            resultado = encontro_combate(nome, jogador, sala.goblin, sala.descricao)
+            resultado = encontro_combate(nome, jogador, sala.inimigo, sala.descricao)
 
             if resultado == "vitoria":
                 memoria.incrementar("inimigos_derrotados")
-                # GDD: Metamorfo absorve essência
+                # Metamorfo absorve essência
                 if isinstance(jogador, Metamorfo):
-                    msg = jogador.absorver_essencia(sala.goblin)
+                    msg = jogador.absorver_essencia_pos_vitoria(sala.inimigo)
                     print(f"\n  [Metamorfo] {msg}")
                 jogador.ganhar_experiencia(XP_POR_SALA_EXPLORADA)
                 print(f"\n  Vida restante: {jogador.vida}/{jogador.vida_maxima}")
@@ -381,7 +399,6 @@ def _explorar_masmorra(nome, jogador):
 
         elif isinstance(sala, SalaCura):
             sala.executar(jogador)
-            # GDD: Druida regenera veneno em fontes
             if isinstance(jogador, Druida):
                 jogador.regenerar_veneno()
                 print("  [Druida] Carga de veneno regenerada.")

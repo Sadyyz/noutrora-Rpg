@@ -1,14 +1,18 @@
 {
   "ajudou_mercador": false,
-  "traiu_goblin_rei": false,
+  "traiu_goblin_rei": true,
   "salvou_elfo": false,
   "destruiu_caverna": false,
-  "pacto_demonio": false,
-  "mortes_totais": 0,
+  "pacto_demonio": true,
+  "mortes_totais": 1,
   "runs_completadas": 0,
-  "runs_iniciadas": 3,
-  "maior_sala_alcancada": 4,
-  "inimigos_derrotados": 0,
+  "runs_iniciadas": 5,
+  "maior_sala_alcancada": 9,
+  "inimigos_derrotados": 7,
   "faccao_escolhida": "Sem Facção",
-  "diario": []
+  "diario": [
+    "lucas morreu na sala 1  (nível 1, Sem Facção)",
+    "banana] fez pacto com a Entidade do Abismo.",
+    "babababaa traiu o Rei Goblin."
+  ]
 }

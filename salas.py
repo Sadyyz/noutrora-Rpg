@@ -17,9 +17,10 @@ class Sala:
 
 
 class SalaCombate(Sala):
-    def __init__(self, goblin, descricao):
+    def __init__(self, inimigo, descricao):
         super().__init__("combate", descricao)
-        self.goblin = goblin
+        self.goblin  = inimigo   # mantém nome 'goblin' para compatibilidade
+        self.inimigo = inimigo
 
     def executar(self, player):
         return self.goblin
@@ -174,15 +175,15 @@ DESCRICOES_VENDA = [
 ]
 
 
-def gerar_sala_aleatoria():
+def gerar_sala_aleatoria(profundidade=1):
     from config import CHANCE_SALA_COMBATE, CHANCE_SALA_TESOURO, CHANCE_SALA_CURA
     p = random.randint(1, 100)
 
     if p <= CHANCE_SALA_COMBATE:
-        from goblin import criar_goblin_aleatorio
-        goblin   = criar_goblin_aleatorio()
+        from inimigos import criar_inimigo_aleatorio
+        inimigo  = criar_inimigo_aleatorio(profundidade)
         descricao = random.choice(DESCRICOES_COMBATE)
-        return SalaCombate(goblin, descricao)
+        return SalaCombate(inimigo, descricao)
 
     elif p <= CHANCE_SALA_TESOURO:
         descricao = random.choice(DESCRICOES_TESOURO)
